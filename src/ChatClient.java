@@ -33,14 +33,15 @@ public class ChatClient implements Runnable {
 
     if (args.length < 2) {
       System.out
-          .println("Usage: java MultiThreadChatClient <host> <portNumber>\n"
+          .println("Usage: java ChatClient <host> <portNumber>\n"
               + "Now using host=" + host + ", portNumber=" + portNumber);
     } else {
       host = args[0];
       portNumber = Integer.valueOf(args[1]).intValue();
     }
 
-
+    //Opens socket on a given host and port.
+    //Opens input and output streams.
     try {
       clientSocket = new Socket(host, portNumber);
       inputLine = new BufferedReader(new InputStreamReader(System.in));
@@ -53,7 +54,7 @@ public class ChatClient implements Runnable {
           + host);
     }
 
-
+    //gets and writes data to the opened socket
     if (clientSocket != null && streamOut != null && streamIn != null) {
       try {
 
@@ -78,6 +79,8 @@ public class ChatClient implements Runnable {
   public void run() {
 
     String responseLine;
+
+    //gets the name of the client
     try {
       JFrame frame = new JFrame("InputDialog Example #1");
       String name = JOptionPane.showInputDialog(frame, "What's your name?");
@@ -86,6 +89,8 @@ public class ChatClient implements Runnable {
       BufferedReader in = new BufferedReader(new
       InputStreamReader(clientSocket.getInputStream()));
       System.out.println(in.readLine());
+
+      //keeps reading from the socket till client quits and receives Bye from server
       while ((responseLine = streamIn.readLine()) != null) {
         System.out.println(responseLine);
         if (responseLine.indexOf("*** Bye") != -1)
@@ -95,5 +100,6 @@ public class ChatClient implements Runnable {
     } catch (IOException e) {
       System.err.println("IOException:  " + e);
     }
+    System.exit(0);
   }
 }
