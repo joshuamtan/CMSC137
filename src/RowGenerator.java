@@ -11,17 +11,16 @@ public class RowGenerator extends Thread {
     }
 
     public void run(){
-//        while (true){
-            for(int i = 20; i<470; i+=50){
+        while (true){
+            for(int i = 5; i<470; i+=80){
                 Obstacle obs = new Obstacle(i);
                 obstacles.add(obs);
             }
 
             try{
-                this.sleep(2000);
+                this.sleep(5000);
             }catch (Exception e){
             }
-//        }
-
+        }
     }
 }

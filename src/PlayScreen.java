@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 public class PlayScreen extends BasicGameState{
 
-    float snakeX = 240;
-    float snakeY = 500;
+
     ArrayList<Obstacle> row = new ArrayList<>();
     RowGenerator gen = new RowGenerator(row);
+    Snake snek = new Snake();
     public PlayScreen(int state){
         gen.start();
     }
@@ -20,20 +20,23 @@ public class PlayScreen extends BasicGameState{
 
     public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) throws SlickException{
         g.drawString("Play State", 40, 50);
-        g.fillOval(snakeX, snakeY, 25, 25);
-        for (Obstacle ob : row){
-            ob.render(g);
-        }
+        snek.render(g);
+            for(int i=0; i<row.size(); i++){
+                row.get(i).render(g);
+            }
+//            for (Obstacle ob : row){
+//                ob.render(g);
+//            }
+
 
     }
 
     public void update(GameContainer gameContainer, StateBasedGame game, int delta) throws SlickException{
-        Input in = gameContainer.getInput();
-        if (in.isKeyDown(Input.KEY_LEFT)){snakeX -= .5; }
-        if (in.isKeyDown(Input.KEY_RIGHT)){snakeX += .5; }
-        for (Obstacle obs : row){
-            obs.rowY+=.1;
+        snek.update(gameContainer);
+        for(int i=0; i<row.size(); i++){
+            if(row.get(i).collide(snek)) row.get(i).rowY+=.1;
         }
+
     }
 
     public int getID(){
