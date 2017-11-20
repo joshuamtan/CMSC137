@@ -9,6 +9,8 @@ public class GameClient extends StateBasedGame{
     public static final String gamename = "Snake vs Blocks";
     public static final int menu = 0;   //menu state identifier
     public static final int play = 1;   //play state identifier
+    public static final int gameWidth = 480;
+    public static final int gameHeight = 640;
 
     public GameClient(String gamename){
         super(gamename);
@@ -26,7 +28,7 @@ public class GameClient extends StateBasedGame{
         AppGameContainer window = null;
         try{    //initialize game container
             window = new AppGameContainer(new GameClient(gamename));
-            window.setDisplayMode(480, 640, false);
+            window.setDisplayMode(gameWidth, gameHeight, false);
             window.start();
         }catch (SlickException e){
             e.printStackTrace();
