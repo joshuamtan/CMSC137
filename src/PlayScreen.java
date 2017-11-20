@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class PlayScreen extends BasicGameState{
 
-
     ArrayList<Obstacle> row = new ArrayList<>();
     RowGenerator gen = new RowGenerator(row);
     Snake snek = new Snake();
@@ -36,7 +35,6 @@ public class PlayScreen extends BasicGameState{
         for(int i=0; i<row.size(); i++){
             if(row.get(i).collide(snek)) row.get(i).rowY+=.1;
         }
-
     }
 
     public int getID(){
