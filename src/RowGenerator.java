@@ -11,7 +11,7 @@ public class RowGenerator extends Thread {
     }
 
     public void run(){
-        while (true){
+//        while (true){
             for(int i = 20; i<470; i+=50){
                 Obstacle obs = new Obstacle(i);
                 obstacles.add(obs);
@@ -21,7 +21,7 @@ public class RowGenerator extends Thread {
                 this.sleep(2000);
             }catch (Exception e){
             }
-        }
+//        }
 
     }
 }
