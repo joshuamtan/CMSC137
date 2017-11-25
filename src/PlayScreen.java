@@ -6,15 +6,17 @@ import java.util.ArrayList;
 
 public class PlayScreen extends BasicGameState{
 
-    ArrayList<Obstacle> row = new ArrayList<>();
-    RowGenerator gen = new RowGenerator(row);
-    Snake snek = new Snake();
+    ArrayList<Obstacle> row = null;
+    RowGenerator gen = null;
+    Snake snek = null;
     public PlayScreen(int state){
-        gen.start();
     }
 
     public void init(GameContainer gameContainer, StateBasedGame game) throws SlickException{
-
+        snek = new Snake();
+        row = new ArrayList<>();
+        gen = new RowGenerator(row);
+        gen.start();
     }
 
     public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) throws SlickException{
@@ -31,7 +33,7 @@ public class PlayScreen extends BasicGameState{
     }
 
     public void update(GameContainer gameContainer, StateBasedGame game, int delta) throws SlickException{
-        snek.update(gameContainer);
+        snek.update(gameContainer, game);
         for(int i=0; i<row.size(); i++){
             if(row.get(i).collide(snek)) row.get(i).rowY+=.1;
         }

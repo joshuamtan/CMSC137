@@ -26,7 +26,7 @@ public class Obstacle {
 //    }
 
     public boolean collide(Snake snake){
-        if((this.rowY-40 < snake.snakeY-25) && (this.rowY+40 > snake.snakeY-25) && (this.rowX+40 <snake.snakeX+25) && (this.rowX+40 >snake.snakeX-25) && (this.health != 0)){
+        if((this.rowY-40 < snake.snakeY-25) && (this.rowY+40 > snake.snakeY-25) && (this.rowX-40 <snake.snakeX-25) && (this.rowX+40 >snake.snakeX-25) && (this.health != 0)){
             snake.health-=this.health;
             while(this.health != 0){
                 this.health--;
@@ -38,10 +38,6 @@ public class Obstacle {
                 this.healthLabel = "";
             }
 
-            if(snake.health <= 0) {
-                // game over
-                snake.snakeSize = 0;
-            }
             return false;
         }
         return true;
