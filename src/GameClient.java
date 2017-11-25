@@ -9,6 +9,7 @@ public class GameClient extends StateBasedGame{
     public static final String gamename = "Snake vs Blocks";
     public static final int menu = 0;   //menu state identifier
     public static final int play = 1;   //play state identifier
+    public static final int gameover = 2;   //play state identifier
     public static final int gameWidth = 480;
     public static final int gameHeight = 640;
 
@@ -16,6 +17,7 @@ public class GameClient extends StateBasedGame{
         super(gamename);
         this.addState(new MenuScreen(menu));  //add menu state to game
         this.addState(new PlayScreen(play));  //add menu state to game
+        this.addState(new GameOverScreen(gameover));  //add menu state to game
     }
 
     public void initStatesList(GameContainer gameContainer) throws SlickException{
