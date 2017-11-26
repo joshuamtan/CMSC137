@@ -29,7 +29,7 @@ public class Snake {
         if (in.isKeyDown(Input.KEY_UP) && snakeY > 0){snakeY -= .5; }
         if (in.isKeyDown(Input.KEY_DOWN) && snakeY < GameClient.gameHeight - snakeSize){snakeY += .5; }
         if(this.health <= 0){
-            game.enterState(2);
+            game.enterState(GameClient.gameover);
         }
     }
 
