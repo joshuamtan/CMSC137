@@ -21,6 +21,7 @@ public class GameOverScreen extends BasicGameState
         g.drawString("Game Over", 220, 10);
         g.drawString("Play Again", 220, 50);
         g.drawRect(220, 50, 100, 20);
+        g.drawLine(480,0,480,640);
 
         int mX = Mouse.getX();
         int mY = Mouse.getY();
@@ -30,6 +31,7 @@ public class GameOverScreen extends BasicGameState
                 game.enterState(1);
             }
         }
+
     }
 
     public void update(GameContainer gameContainer, StateBasedGame game, int delta){
@@ -37,6 +39,6 @@ public class GameOverScreen extends BasicGameState
     }
 
     public int getID(){
-        return 2;
+        return GameClient.gameover;
     }
 }
