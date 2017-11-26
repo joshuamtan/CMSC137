@@ -35,7 +35,7 @@ public class MenuScreen extends BasicGameState{
         }
         if((mX>180&&mX<280) && (mY>640-310 && mY<640-290)){ // multi button
             if(Mouse.isButtonDown(0)){
-                game.enterState(1);
+                game.enterState(3);
             }
         }
         if((mX>180&&mX<215) && (mY>640-350 && mY<640-330)){ // quit button

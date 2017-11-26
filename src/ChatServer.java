@@ -32,24 +32,12 @@ public class ChatServer extends Thread{
             }catch(IOException e){
                 e.printStackTrace();
                 System.out.println("Input/Output Error!");
-                //possible cause: client was disconnected while waiting for input
                 break;
             }
         }
     }
-    public static void main(String [] args){
-        try{
-            int port = Integer.parseInt(args[0]);
-            Thread t = new ChatServer(port);
-            t.start();
-        }catch(IOException e){
-            //e.printStackTrace();
-            System.out.println("Usage: java ChatServer <port no.>\n"+
-                    "Make sure to use valid ports (greater than 1023)");
-        }catch(ArrayIndexOutOfBoundsException e){
-            //e.printStackTrace();
-            System.out.println("Usage: java ChatServer <port no.>\n"+
-                    "Insufficient arguments given.");
-        }
+
+    public void startServer(){
+
     }
 }

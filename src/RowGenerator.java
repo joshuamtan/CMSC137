@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class RowGenerator extends Thread {
-    ArrayList<Obstacle> obstacles;
-    int rowNum = 0;
+    ArrayList<GameObject> obstacles;
 
-    public RowGenerator(ArrayList<Obstacle> obstacles){
+    public RowGenerator(ArrayList<GameObject> obstacles){
         this.obstacles = obstacles;
     }
 
@@ -17,11 +16,17 @@ public class RowGenerator extends Thread {
                 if (new Random().nextBoolean() == true) {
                     Obstacle obs = new Obstacle(i);
                     obstacles.add(obs);
+                }else{
+                    if(new Random().nextBoolean() == true){
+                        PowerUp pow = new PowerUp(i);
+                        obstacles.add(pow);
+                    }
+
                 }
             }
 
             try{
-                this.sleep(5000);
+                this.sleep(3000);
             }catch (Exception e){
             }
         }
