@@ -7,10 +7,10 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import java.io.IOException;
 
-public class HostScreen extends BasicGameState {
+public class LobbyScreen extends BasicGameState {
     String hostAddress = "";
 
-    public HostScreen(int state){
+    public LobbyScreen(int state){
 
     }
 
@@ -93,5 +93,5 @@ public class HostScreen extends BasicGameState {
         }
     }
 
-    public int getID() { return GameClient.host;    }
+    public int getID() { return GameClient.lobby;    }
 }
