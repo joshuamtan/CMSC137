@@ -18,10 +18,11 @@ public class GameOverScreen extends BasicGameState
     }
 
     public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) throws SlickException{
-        g.drawString("Game Over", 220, 10);
+    	g.drawString("Game Over", 220, 10);
         g.drawString("Play Again", 220, 50);
+        g.drawString("Back to Menu", 220, 95);
+        g.drawString("Quit", 220, 130);
         g.drawRect(220, 50, 100, 20);
-        g.drawLine(480,0,480,640);
 
         int mX = Mouse.getX();
         int mY = Mouse.getY();
@@ -30,8 +31,15 @@ public class GameOverScreen extends BasicGameState
                 game.getState(1).init(gameContainer, game);
                 game.enterState(1);
             }
+        }else if((mX>220&&mX<335) && (mY>640-105 && mY<640-90)) { //back to menu button
+        	if(Mouse.isButtonDown(0)) {
+        		 gameContainer.reinit();
+        	}
+        }else if((mX>220&&mX<320) && (mY>640-145 && mY<640-125)) {
+        	if(Mouse.isButtonDown(0)) {
+        		gameContainer.exit();
+        	}
         }
-
     }
 
     public void update(GameContainer gameContainer, StateBasedGame game, int delta){
