@@ -4,9 +4,11 @@ import java.util.*;
 
 public class ClientListener extends Thread{
     private Socket server;
+    private ArrayList<String> messages;
     
     public ClientListener(Socket server){
         this.server = server;
+        messages = new ArrayList<String>();
     }
 
     public void run(){
@@ -14,12 +16,19 @@ public class ClientListener extends Thread{
             try{
                 InputStream inFromServer = this.server.getInputStream();
                 DataInputStream in = new DataInputStream(inFromServer);
-                System.out.println(in.readUTF());
+                String incoming = in.readUTF();
+                System.out.println(incoming);
+                messages.add(incoming);
+                // write to textbox in game screen
             } catch(IOException e){
                 e.printStackTrace();
                 System.out.println("Cannot find (or disconnected from) Server");
             }
             
         }
+    }
+
+    public ArrayList<String> getMessages() {
+        return messages;
     }
 }

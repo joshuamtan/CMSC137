@@ -1,7 +1,7 @@
 
 import org.newdawn.slick.*;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.*;
-
 import java.util.ArrayList;
 
 public class PlayScreen extends BasicGameState{
@@ -11,7 +11,12 @@ public class PlayScreen extends BasicGameState{
     Snake snek = null;
     int score = 0;
     String scoreString = null;
-    public static String message = "";
+    TextField messageField;
+    TextField messages;
+    int textboxHeight = 40;
+    int textboxWidth = GameClient.windowWidth - GameClient.gameWidth;
+    ChatClient client = null;
+    ArrayList<String> messagesList;
 
     public PlayScreen(int state){
     }
@@ -21,7 +26,13 @@ public class PlayScreen extends BasicGameState{
         row = new ArrayList<>();
         gen = new RowGenerator(row);
         score = 0;
-        gen.start();
+        messageField = new TextField(gameContainer, gameContainer.getDefaultFont(),GameClient.gameWidth,GameClient.gameHeight - textboxHeight,textboxWidth,textboxHeight);
+        messages = new TextField(gameContainer, gameContainer.getDefaultFont(),GameClient.gameWidth,0,textboxWidth,GameClient.gameHeight - messageField.getHeight());
+        messageField.setBackgroundColor(Color.white);
+        messageField.setTextColor(Color.black);
+        messages.setBackgroundColor(Color.white);
+        messages.setTextColor(Color.black);
+        messages.setAcceptingInput(false);
     }
 
     public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) throws SlickException{
@@ -31,6 +42,8 @@ public class PlayScreen extends BasicGameState{
         for(int i=0; i<row.size(); i++){
             row.get(i).render(g);
         }
+        messageField.render(gameContainer, g);
+        messages.render(gameContainer, g);
     }
 
     public void update(GameContainer gameContainer, StateBasedGame game, int delta) throws SlickException{
@@ -41,7 +54,28 @@ public class PlayScreen extends BasicGameState{
                 score += 1;
             }
         }
+        messagesList = client.getListener().getMessages();
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_ENTER)) {
+            if (client != null) {
+                String message = messageField.getText();
+                client.sendMessage(message);
+                messagesList.add("me: "+ message);
+                messageField.setText("");
+            }
+        }
+        String messagesString = "";
+        for( String m : messagesList) {
+            messagesString = messagesString + m + "\n";
+        }
+
+        messages.setText(messagesString);
     }
+
+    public void addChatClient(ChatClient client) {
+        this.client = client;
+    }
+
+    public void startGame() { gen.start(); }
 
     public int getID(){
         return GameClient.play;

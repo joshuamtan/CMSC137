@@ -19,6 +19,8 @@ public class LobbyScreen extends BasicGameState {
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         gameContainer.setShowFPS(false);
         host = new TextField(gameContainer, gameContainer.getDefaultFont(),190,360,200,20);
+        host.setBackgroundColor(Color.white);
+        host.setTextColor(Color.black);
     }
 
     public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) throws SlickException {
@@ -43,17 +45,19 @@ public class LobbyScreen extends BasicGameState {
 
         if((mX>220 && mX<260) && (mY>640-410 && mY<640-400)){ // start button
             if(Mouse.isButtonDown(0)){
-                if (host.getText().length() > 0) {// start client only
-                    (new ChatClient(host.getText(), gameContainer.getInput(), game)).start();
-                }
-                else { // start server and client
+                String hostAddress = host.getText();
+                if (hostAddress.length() ==  0) {// start server
                     try {
                         (new ChatServer()).start();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    (new ChatClient("localhost", gameContainer.getInput(), game)).start();
+                    hostAddress = "localhost";
                 }
+                ChatClient client = new ChatClient(hostAddress);
+                client.start();
+
+                ((PlayScreen) game.getState(GameClient.play)).addChatClient(client);
                 ((PlayScreen) game.getState(GameClient.play)).startGame();
                 game.enterState(GameClient.play); // enter play state
             }
