@@ -2,20 +2,23 @@ import com.sun.deploy.util.StringUtils;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.io.IOException;
 
 public class LobbyScreen extends BasicGameState {
-    String hostAddress = "";
+    TextField host;
+    StateBasedGame game;
 
-    public LobbyScreen(int state){
-
+    public LobbyScreen(int state, StateBasedGame game){
+        this.game = game;
     }
 
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         gameContainer.setShowFPS(false);
+        host = new TextField(gameContainer, gameContainer.getDefaultFont(),190,360,200,20);
     }
 
     public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) throws SlickException {
@@ -24,8 +27,7 @@ public class LobbyScreen extends BasicGameState {
         g.drawString("Type host address to join", 180, 250);
         g.drawString("If no host address is provided,",180, 280);
         g.drawString("it will create a new game,",180, 310);
-        g.drawString(hostAddress, 200, 360);
-        g.drawRect(190, 360, 200, 20);
+        host.render(gameContainer, g);
         g.drawString("Start", 220, 400);
 
         // separator
@@ -35,50 +37,14 @@ public class LobbyScreen extends BasicGameState {
     public void update(GameContainer gameContainer, StateBasedGame game, int i) throws SlickException {
         // getting input from the user
         Input in = gameContainer.getInput();
-        if (in.isKeyPressed(Input.KEY_0)) {
-            if (hostAddress.length() < 15) hostAddress+= 0;
-        }
-        if (in.isKeyPressed(Input.KEY_1)) {
-            if (hostAddress.length() < 15) hostAddress+= 1;
-        }
-        if (in.isKeyPressed(Input.KEY_2)) {
-            if (hostAddress.length() < 15) hostAddress+= 2;
-        }
-        if (in.isKeyPressed(Input.KEY_3)) {
-            if (hostAddress.length() < 15) hostAddress+= 3;
-        }
-        if (in.isKeyPressed(Input.KEY_4)) {
-            if (hostAddress.length() < 15) hostAddress+= 4;
-        }
-        if (in.isKeyPressed(Input.KEY_5)) {
-            if (hostAddress.length() < 15) hostAddress+= 5;
-        }
-        if (in.isKeyPressed(Input.KEY_6)) {
-            if (hostAddress.length() < 15) hostAddress+= 6;
-        }
-        if (in.isKeyPressed(Input.KEY_7)) {
-            if (hostAddress.length() < 15) hostAddress+= 7;
-        }
-        if (in.isKeyPressed(Input.KEY_8)) {
-            if (hostAddress.length() < 15) hostAddress+= 8;
-        }
-        if (in.isKeyPressed(Input.KEY_9)) {
-            if (hostAddress.length() < 15) hostAddress+= 9;
-        }
-        if (in.isKeyPressed(Input.KEY_PERIOD)) {
-            if (hostAddress.length() < 15) hostAddress+= ".";
-        }
-        if (in.isKeyPressed(Input.KEY_BACK)) {
-            if (hostAddress.length() > 0) hostAddress = hostAddress.substring(0,hostAddress.length()-1);
-        }
 
         int mX = Mouse.getX();
         int mY = Mouse.getY();
 
         if((mX>220 && mX<260) && (mY>640-410 && mY<640-400)){ // start button
             if(Mouse.isButtonDown(0)){
-                if (hostAddress.length() > 0) {// start client only
-                    (new ChatClient(hostAddress, gameContainer.getInput())).start();
+                if (host.getText().length() > 0) {// start client only
+                    (new ChatClient(host.getText(), gameContainer.getInput(), game)).start();
                 }
                 else { // start server and client
                     try {
@@ -86,12 +52,12 @@ public class LobbyScreen extends BasicGameState {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    (new ChatClient("localhost", gameContainer.getInput())).start();
+                    (new ChatClient("localhost", gameContainer.getInput(), game)).start();
                 }
+                ((PlayScreen) game.getState(GameClient.play)).startGame();
                 game.enterState(GameClient.play); // enter play state
             }
         }
     }
-
     public int getID() { return GameClient.lobby;    }
 }
