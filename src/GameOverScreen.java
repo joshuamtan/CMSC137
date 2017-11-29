@@ -28,7 +28,8 @@ public class GameOverScreen extends BasicGameState
         int mY = Mouse.getY();
         if((mX>220&&mX<320) && (mY>640-70 && mY<640-50)){ // play button
             if(Mouse.isButtonDown(0)){
-                game.getState(1).init(gameContainer, game);
+                ((PlayScreen) game.getState(GameClient.play)).startGame();
+                game.getState(GameClient.play).init(gameContainer, game);
                 game.enterState(1);
             }
         }else if((mX>220&&mX<335) && (mY>640-105 && mY<640-90)) { //back to menu button

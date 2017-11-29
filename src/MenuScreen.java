@@ -31,6 +31,7 @@ public class MenuScreen extends BasicGameState{
 //        input = "X: " + mX + "Y: " + mY;
         if((mX>180&&mX<215) && (mY>640-270 && mY<640-250)){ // play button
             if(Mouse.isButtonDown(0)){
+                ((PlayScreen) game.getState(GameClient.play)).startGame();
                 game.enterState(GameClient.play);
             }
         }
