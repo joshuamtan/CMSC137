@@ -19,7 +19,6 @@ public class GameClient extends StateBasedGame{
         this.addState(new MenuScreen(menu));  //add menu state to game
         this.addState(new PlayScreen(play));  //add menu state to game
         this.addState(new GameOverScreen(gameover));  //add menu state to game
-        this.addState(new LobbyScreen(lobby));  //add menu state to game
     }
 
     public void initStatesList(GameContainer gameContainer) throws SlickException{
