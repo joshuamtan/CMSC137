@@ -1,38 +1,48 @@
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.gui.TextField;
+import org.newdawn.slick.state.StateBasedGame;
 import java.net.*;
 import java.io.*;
 import java.util.*;
 
-public class ChatClient{
-    public static void main(String [] args){
-        boolean connected = true;
-        try{
-            String serverName = args[0]; //get IP address of server from first param
-            int port = Integer.parseInt(args[1]); //get port from second param
-            String name = args[2]; //get username from the third param
-            String message = null;
+public class ChatClient extends Thread implements Constants {
+    Socket server = null;
+    String name = "";
+    Input input = null;
+    Thread listenerThread;
+
+    public ChatClient(String serverName) {
+        this.input = input;
+
+        try {
             /* Open a ClientSocket and connect to ServerSocket */
-            Socket server = new Socket(serverName, port);
-            
-            /* Receive data from the ServerSocket */
-            Thread listenerThread = new ClientListener(server);
+            server = new Socket(serverName, CHAT_PORT);
+            name = server.getLocalSocketAddress().toString();
+            System.out.println("Successfully created client " + name);
+            listenerThread = new ClientListener(server);
             listenerThread.start();
-                
-            while(true){
-                /* Send data to the ServerSocket */
-                Scanner scan = new Scanner(System.in);
-                message = scan.nextLine();
-                OutputStream outToServer = server.getOutputStream();
-                DataOutputStream out = new DataOutputStream(outToServer);
-                out.writeUTF(name+": " +message);
-
-            }
-
-        }catch(IOException e){
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Cannot find (or disconnected from) Server");
-        }catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("Usage: java ChatClient <server ip> <port no.> '<your message to the server>'");
-        }  
+        }
+    }
+
+    public void run() {
+    }
+
+    public void sendMessage(String message) {
+        try {
+            System.out.println("Sending message");
+            OutputStream outToServer = server.getOutputStream();
+            DataOutputStream out = new DataOutputStream(outToServer);
+            out.writeUTF(name + ": " + message);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ClientListener getListener() {
+        return (ClientListener) listenerThread;
     }
 }

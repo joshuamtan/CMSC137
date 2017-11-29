@@ -13,15 +13,11 @@ public class RowGenerator extends Thread {
     public void run(){
         while (true){
             for(int i = 5; i<480; i+=80){
-                if (new Random().nextBoolean() == true) {
-                    Obstacle obs = new Obstacle(i);
-                    obstacles.add(obs);
-                }else{
-                    if(new Random().nextBoolean() == true){
-                        PowerUp pow = new PowerUp(i);
-                        obstacles.add(pow);
-                    }
-
+                int decision = new Random().nextInt() % 10;
+                if (decision < 4) {
+                    obstacles.add(new Obstacle(i));
+                }else if (decision > 4 && decision < 8) {
+                    obstacles.add(new PowerUp(i));
                 }
             }
 

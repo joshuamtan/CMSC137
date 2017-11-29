@@ -19,7 +19,7 @@ public class SearchMessages extends Thread{
             try{
                 DataInputStream in = new DataInputStream(this.client.getInputStream());
                 String message = in.readUTF();
-                System.out.println(message); //readUTF waits for input
+//                System.out.println(message); //readUTF waits for input
                 for(Socket socket : clients){
                     if(socket.getInetAddress() != this.client.getInetAddress()){
                         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
