@@ -54,21 +54,23 @@ public class PlayScreen extends BasicGameState{
                 score += 1;
             }
         }
-        messagesList = client.getListener().getMessages();
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_ENTER)) {
-            if (client != null) {
-                String message = messageField.getText();
-                client.sendMessage(message);
-                messagesList.add("me: "+ message);
-                messageField.setText("");
+        if (client != null) {
+            messagesList = client.getListener().getMessages();
+            if (gameContainer.getInput().isKeyPressed(Input.KEY_ENTER)) {
+                if (client != null) {
+                    String message = messageField.getText();
+                    client.sendMessage(message);
+                    messagesList.add("me: "+ message);
+                    messageField.setText("");
+                }
             }
-        }
-        String messagesString = "";
-        for( String m : messagesList) {
-            messagesString = messagesString + m + "\n";
-        }
+            String messagesString = "";
+            for( String m : messagesList) {
+                messagesString = messagesString + m + "\n";
+            }
 
-        messages.setText(messagesString);
+            messages.setText(messagesString);
+        }
     }
 
     public void addChatClient(ChatClient client) {
