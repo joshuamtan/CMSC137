@@ -33,7 +33,6 @@ public class ChatClient extends Thread implements Constants {
 
     public void sendMessage(String message) {
         try {
-            System.out.println("Sending message");
             OutputStream outToServer = server.getOutputStream();
             DataOutputStream out = new DataOutputStream(outToServer);
             out.writeUTF(name + ": " + message);
