@@ -1,8 +1,5 @@
 import org.newdawn.slick.Graphics;
 
-import java.awt.*;
-import java.util.ArrayList;
-
 public class Obstacle extends GameObject{
     private int health = 2;
     public float xpos;
@@ -45,5 +42,9 @@ public class Obstacle extends GameObject{
     @Override
     public void moveY(){
         this.ypos+=.1;
+    }
+
+    public float getY(){
+        return this.ypos;
     }
 }

@@ -12,4 +12,6 @@ public abstract class GameObject {
     public abstract boolean collide(Snake snek);
 
     public abstract void moveY();
+
+    public abstract float getY();
 }

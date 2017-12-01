@@ -1,6 +1,4 @@
 import org.newdawn.slick.Graphics;
-
-import java.awt.*;
 import java.util.Random;
 
 public class PowerUp extends GameObject{
@@ -44,5 +42,9 @@ public class PowerUp extends GameObject{
 
     public void moveY(){
         this.ypos+=.1;
+    }
+
+    public float getY(){
+        return this.ypos;
     }
 }
