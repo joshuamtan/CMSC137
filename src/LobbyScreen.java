@@ -8,9 +8,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import java.io.IOException;
 
-public class LobbyScreen extends BasicGameState {
+public class LobbyScreen extends BasicGameState implements Constants {
     TextField host;
     StateBasedGame game;
+    final int RECT_HEIGHT = 20;
+    final int RECT_WIDTH = 150;
 
     public LobbyScreen(int state, StateBasedGame game){
         this.game = game;
@@ -24,44 +26,65 @@ public class LobbyScreen extends BasicGameState {
     }
 
     public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) throws SlickException {
-        g.drawString("Snake vs Blocks", 180, 210);
+        g.drawString(GAME_NAME, 180, 210);
         g.drawLine(180, 240, 320, 240);
-        g.drawString("Type host address to join", 180, 250);
-        g.drawString("If no host address is provided,",180, 280);
-        g.drawString("it will create a new game,",180, 310);
+        g.drawString("Create a new game", 180, 270);
+        g.drawString("Create Game", 220, 300);
+        g.drawRect(210,300, RECT_WIDTH, RECT_HEIGHT);
+        g.drawString("or type host address to join", 180, 330);
         host.render(gameContainer, g);
-        g.drawString("Start", 220, 400);
+        g.drawString("Join Game", 220, 390);
+        g.drawRect(210,390, RECT_WIDTH, RECT_HEIGHT);
 
-        // separator
-        g.drawLine(480,0,480,640);
+        g.drawLine(GAME_WIDTH,0,GAME_WIDTH,WINDOW_HEIGHT);  // separator
     }
 
     public void update(GameContainer gameContainer, StateBasedGame game, int i) throws SlickException {
-        // getting input from the user
-        Input in = gameContainer.getInput();
+        Input in = gameContainer.getInput();    // getting input from the user
 
         int mX = Mouse.getX();
         int mY = Mouse.getY();
 
-        if((mX>220 && mX<260) && (mY>640-410 && mY<640-400)){ // start button
+        if ((mX>210 && mX<360) && (mY>(WINDOW_HEIGHT-300-RECT_HEIGHT) && mY<(WINDOW_HEIGHT-300))) { // create button
+            if(Mouse.isButtonDown(0)){
+                String hostAddress = "localhost";
+                // start the chat server
+                try {
+                    (new ChatServer()).start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // start chat
+                ChatClient client = new ChatClient(hostAddress);
+                client.start();
+                ((WaitingScreen) game.getState(WAITING_STATE)).addChatClient(client);
+
+                GameClient.createServer();
+                GameClient.createClient();
+                NetworkHelper.connect(hostAddress, "Client");
+
+                game.enterState(WAITING_STATE); // enter waiting state
+
+            }
+        }
+
+        if((mX>210 && mX<360) && (mY>(WINDOW_HEIGHT-390-RECT_HEIGHT) && mY<(WINDOW_HEIGHT-390))){ // join button
             if(Mouse.isButtonDown(0)){
                 String hostAddress = host.getText();
-                if (hostAddress.length() ==  0) {// start server
-                    try {
-                        (new ChatServer()).start();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    hostAddress = "localhost";
-                }
+                // start chat
                 ChatClient client = new ChatClient(hostAddress);
                 client.start();
 
-                ((PlayScreen) game.getState(GameClient.play)).addChatClient(client);
-                ((PlayScreen) game.getState(GameClient.play)).startGame();
-                game.enterState(GameClient.play); // enter play state
+                ((WaitingScreen) game.getState(WAITING_STATE)).addChatClient(client);
+
+                GameClient.createClient();
+                NetworkHelper.connect(hostAddress, "Client");
+
+                game.enterState(WAITING_STATE); // enter waiting state
+//                ((GameOverScreen) game.getState(GAME_OVER_STATE)).addChatClient(client);
+//                ((PlayScreen) game.getState(PLAY_STATE)).startGame();
             }
         }
     }
-    public int getID() { return GameClient.lobby;    }
+    public int getID() { return LOBBY_STATE; }
 }

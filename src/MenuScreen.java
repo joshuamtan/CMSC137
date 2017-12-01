@@ -3,7 +3,7 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 import org.lwjgl.input.Mouse;
 
-public class MenuScreen extends BasicGameState{
+public class MenuScreen extends BasicGameState implements Constants{
     String input = "";
 
     public MenuScreen(int state){
@@ -16,7 +16,7 @@ public class MenuScreen extends BasicGameState{
 
     public void render(GameContainer gameContainer, StateBasedGame game, Graphics g) throws SlickException{
         g.drawString(input, 180, 100);
-        g.drawString("Snake vs Blocks", 180, 210);
+        g.drawString(GAME_NAME, 180, 210);
         g.drawLine(180, 240, 320, 240);
         g.drawString("Play", 180, 250);
 //        g.drawRect(180, 250, 35, 20);
@@ -31,13 +31,13 @@ public class MenuScreen extends BasicGameState{
 //        input = "X: " + mX + "Y: " + mY;
         if((mX>180&&mX<215) && (mY>640-270 && mY<640-250)){ // play button
             if(Mouse.isButtonDown(0)){
-                ((PlayScreen) game.getState(GameClient.play)).startGame();
-                game.enterState(GameClient.play);
+                ((PlayScreen) game.getState(PLAY_STATE)).startGame();
+                game.enterState(PLAY_STATE);
             }
         }
         if((mX>180&&mX<280) && (mY>640-310 && mY<640-290)){ // multi button
             if(Mouse.isButtonDown(0)){
-                game.enterState(GameClient.lobby);
+                game.enterState(LOBBY_STATE);
             }
         }
         if((mX>180&&mX<215) && (mY>640-350 && mY<640-330)){ // quit button
@@ -45,7 +45,6 @@ public class MenuScreen extends BasicGameState{
                 gameContainer.exit();
             }
         }
-
     }
 
     public void update(GameContainer gameContainer, StateBasedGame game, int delta) throws SlickException{
@@ -53,6 +52,6 @@ public class MenuScreen extends BasicGameState{
     }
 
     public int getID(){
-        return GameClient.menu;
+        return MENU_STATE;
     }
 }
