@@ -1,41 +1,58 @@
 
-import javax.swing.*;
-import java.awt.*;
 import org.newdawn.slick.*;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.*;
 
-public class GameClient extends StateBasedGame{
-    public static final String gamename = "Snake vs Blocks";
-    public static final int menu = 0;   //menu state identifier
-    public static final int play = 1;   //play state identifier
-    public static final int gameover = 2;   //play state identifier
-    public static final int lobby = 3;   //play state iden
-    public static final int gameWidth = 480;
-    public static final int windowWidth = 800;
-    public static final int gameHeight = 640;
+public class GameClient extends StateBasedGame implements Constants{
+    private static GameServer gameServer;
 
-    public GameClient(String gamename){
-        super(gamename);
+    static Thread clientReceiver;
+    static Thread serverReceiver;
+
+    public GameClient(){
+        super(GAME_NAME);
     }
 
     public void initStatesList(GameContainer gameContainer) throws SlickException{
-        this.addState(new MenuScreen(menu));  //add menu state to game
-        this.addState(new GameOverScreen(gameover));  //add game over state to game
-        this.addState(new PlayScreen(play));  //add play state to game
-        this.addState(new LobbyScreen(lobby, this));  //add lobby state to game
-        this.enterState(menu);  //show initial screen menu
+        this.addState(new MenuScreen(MENU_STATE));  //add menu state to game
+        this.addState(new GameOverScreen(GAME_OVER_STATE));  //add game over state to game
+        this.addState(new PlayScreen(PLAY_STATE));  //add play state to game
+        this.addState(new LobbyScreen(LOBBY_STATE, this));  //add lobby state to game
+        this.addState(new WaitingScreen(WAITING_STATE));  //add waiting state to game
+        this.enterState(MENU_STATE);  //show initial screen menu
     }
 
     public static void main(String[] args){
         AppGameContainer window = null;
         try{    //initialize game container
-            window = new AppGameContainer(new GameClient(gamename));
-            window.setDisplayMode(windowWidth, gameHeight, false);
+            window = new AppGameContainer(new GameClient());
+            window.setDisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT, false);
             window.start();
         }catch (SlickException e){
             e.printStackTrace();
         }
+    }
+
+    public static void createServer() {
+        serverReceiver = NetworkHelper.createServerReceiver();
+        serverReceiver.start();
+        gameServer = new GameServer();
+    }
+
+    public static void createClient() {
+        clientReceiver = NetworkHelper.createClientReceiver();
+        clientReceiver.start();
+    }
+
+    public static void endServer() {
+        serverReceiver.interrupt();
+    }
+
+    public static void endClient() {
+        clientReceiver.interrupt();
+    }
+
+    public static GameServer getGameServer() {
+        return gameServer;
     }
 
 }
