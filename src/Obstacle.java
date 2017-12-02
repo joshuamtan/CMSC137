@@ -1,3 +1,4 @@
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 public class Obstacle extends GameObject{
@@ -16,13 +17,26 @@ public class Obstacle extends GameObject{
 
     @Override
     public void render(Graphics g){
-        g.drawRect(xpos, ypos, width, height);
+        if(this.health <= 5){
+            g.setColor(Color.green);
+        }else if(this.health <= 10 && this.health > 5){
+            g.setColor(Color.yellow);
+        }else if(this.health <= 15 && this.health > 10){
+            g.setColor(Color.orange);
+        }else if(this.health <= 20 && this.health > 15){
+            g.setColor(Color.red);
+        }
+
+        g.fillRect(xpos, ypos, width, height);
+        g.setColor(Color.black);
         g.drawString(healthLabel, xpos+30, ypos+30);
+        g.setColor(Color.white);
+
     }
 
     @Override
     public boolean collide(Snake snake){
-        if((this.ypos-40 < snake.snakeY-25) && (this.ypos+40 > snake.snakeY-25) && (this.xpos-40 <snake.snakeX-25) && (this.xpos+40 >snake.snakeX-25) && (this.health != 0)){
+        if((this.ypos-40 < snake.snakeHeadY-25) && (this.ypos+40 > snake.snakeHeadY-25) && (this.xpos-40 <snake.snakeHeadX-25) && (this.xpos+40 >snake.snakeHeadX-25) && (this.health != 0)){
             snake.health-=this.health;
             while(this.health != 0){
                 this.health--;

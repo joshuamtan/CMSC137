@@ -23,7 +23,7 @@ public class PowerUp extends GameObject{
 
     @Override
     public boolean collide(Snake snake){
-        if((this.ypos-30 < snake.snakeY-25) && (this.ypos+30 > snake.snakeY-25) && (this.xpos-30 <snake.snakeX-25) && (this.xpos+30 >snake.snakeX-25) && (this.health != 0)){
+        if((this.ypos-30 < snake.snakeHeadY-25) && (this.ypos+30 > snake.snakeHeadY-25) && (this.xpos-30 <snake.snakeHeadX-25) && (this.xpos+30 >snake.snakeHeadX-25) && (this.health != 0)){
             snake.health+=this.health;
             while(this.health != 0){
                 this.health--;

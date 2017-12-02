@@ -24,6 +24,7 @@ public class PlayScreen extends BasicGameState implements Constants {
         snek = new Snake();
         row = new ArrayList<>();
         gen = new RowGenerator(row);
+        gameContainer.setAlwaysRender(true);
         score = 0;
         messageField = new TextField(gameContainer, gameContainer.getDefaultFont(),GAME_WIDTH,WINDOW_HEIGHT - textboxHeight,textboxWidth,textboxHeight);
         messages = new TextField(gameContainer, gameContainer.getDefaultFont(),GAME_WIDTH,0,textboxWidth,WINDOW_HEIGHT - messageField.getHeight());
