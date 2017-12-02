@@ -5,9 +5,11 @@ import java.util.Random;
 
 public class RowGenerator extends Thread {
     ArrayList<GameObject> obstacles;
+    Snake snek = null;
+    public RowGenerator(ArrayList<GameObject> obstacles, Snake snek){
 
-    public RowGenerator(ArrayList<GameObject> obstacles){
         this.obstacles = obstacles;
+        this.snek = snek;
     }
 
     public void run(){
@@ -15,7 +17,7 @@ public class RowGenerator extends Thread {
             for(int i = 5; i<480; i+=80){
                 int decision = new Random().nextInt() % 10;
                 if (decision < 4) {
-                    obstacles.add(new Obstacle(i));
+                    obstacles.add(new Obstacle(i, snek));
                 }else if (decision > 4 && decision < 8) {
                     obstacles.add(new PowerUp(i));
                 }

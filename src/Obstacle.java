@@ -9,24 +9,24 @@ public class Obstacle extends GameObject{
     public int height = 70;
     public String healthLabel = Integer.toString(health);
 
-    public Obstacle(float rowX){
+    public Obstacle(float rowX, Snake snek){
         this.xpos = rowX;
-        health = (int) (Math.random()*20) + 1;
+        health = (int) (Math.random()*snek.health) + 1;
         healthLabel = Integer.toString(health);
     }
 
     @Override
     public void render(Graphics g){
-        if(this.health <= 5){
+        if(this.health <= 10){
             g.setColor(Color.green);
-        }else if(this.health <= 10 && this.health > 5){
+        }else if(this.health <= 20 && this.health > 10){
             g.setColor(Color.yellow);
-        }else if(this.health <= 15 && this.health > 10){
+        }else if(this.health <= 30 && this.health > 20){
             g.setColor(Color.orange);
-        }else if(this.health <= 20 && this.health > 15){
+        }else{
             g.setColor(Color.red);
         }
-
+        g.drawRect(xpos, ypos, width, height);
         g.fillRect(xpos, ypos, width, height);
         g.setColor(Color.black);
         g.drawString(healthLabel, xpos+30, ypos+30);
@@ -36,7 +36,7 @@ public class Obstacle extends GameObject{
 
     @Override
     public boolean collide(Snake snake){
-        if((this.ypos-40 < snake.snakeHeadY-25) && (this.ypos+40 > snake.snakeHeadY-25) && (this.xpos-40 <snake.snakeHeadX-25) && (this.xpos+40 >snake.snakeHeadX-25) && (this.health != 0)){
+        if((this.ypos-20 < snake.snakeHeadY+25) && (this.ypos+20 > snake.snakeHeadY-25) && (this.xpos-40 <snake.snakeHeadX-25) && (this.xpos+40 >snake.snakeHeadX-25) && (this.health != 0)){
             snake.health-=this.health;
             while(this.health != 0){
                 this.health--;

@@ -23,7 +23,7 @@ public class PlayScreen extends BasicGameState implements Constants {
     public void init(GameContainer gameContainer, StateBasedGame game) throws SlickException{
         snek = new Snake();
         row = new ArrayList<>();
-        gen = new RowGenerator(row);
+        gen = new RowGenerator(row, snek);
         gameContainer.setAlwaysRender(true);
         score = 0;
         messageField = new TextField(gameContainer, gameContainer.getDefaultFont(),GAME_WIDTH,WINDOW_HEIGHT - textboxHeight,textboxWidth,textboxHeight);
