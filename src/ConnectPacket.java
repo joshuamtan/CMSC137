@@ -6,4 +6,8 @@ public class ConnectPacket implements Serializable{
     public ConnectPacket(String name) {
         this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
 }
