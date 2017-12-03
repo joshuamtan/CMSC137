@@ -3,6 +3,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
+import java.util.ArrayList;
 import java.util.Timer;
 
 public class Snake implements Constants {
@@ -12,14 +13,21 @@ public class Snake implements Constants {
     public float snakeBodyX = 240;
     public float snakeBodyY = 240;
     public float snakeSize = 25;
+    ArrayList<SnakeBody> snakeBody = null;
+    public Snake(){
+        snakeBody = new ArrayList<>();
+        for(int i=1; i<health/5; i++){
+            SnakeBody cell = new SnakeBody(snakeHeadX, snakeHeadY+(snakeSize*i), snakeSize);
+            snakeBody.add(cell);
+        }
 
-    public Snake(){}
+    }
 
     public void render(Graphics g){
         g.drawString(Integer.toString(health), snakeHeadX+30, snakeHeadY);
-        g.fillOval(snakeHeadX, snakeHeadY+snakeSize, snakeSize, snakeSize);
-        for(int i=1; i<health/5; i++){
-            g.fillOval(snakeHeadX, snakeHeadY+(snakeSize*i), snakeSize, snakeSize);
+        for(int i=1; i<snakeBody.size(); i++){
+            snakeBody.get(i).render(g);
+            snakeBody.get(i).setYpos(snakeHeadY+snakeSize*i);
         }
     }
 
@@ -38,5 +46,38 @@ public class Snake implements Constants {
         if(this.health <= 0){
             game.enterState(GAME_OVER_STATE);
         }
+    }
+
+    public void moveBody(int i){
+        if(i == 0){
+            if (snakeBody.get(i).getXpos() < snakeHeadX){
+                while(snakeBody.get(i).getXpos() < snakeHeadX){
+                    snakeBody.get(i).increaseXpos((float).5);
+                }
+            }
+            if (snakeBody.get(i).getXpos() > snakeHeadX){
+                while(snakeBody.get(i).getXpos() > snakeHeadX){
+                    snakeBody.get(i).decreaseXpos((float).5);
+                }
+            }
+        }else{
+            if (snakeBody.get(i).getXpos() < snakeBody.get(i-1).getXpos()){
+                while(snakeBody.get(i).getXpos() < snakeBody.get(i-1).getXpos()){
+                    snakeBody.get(i).increaseXpos((float).5);
+                }
+            }
+            if (snakeBody.get(i).getXpos() > snakeBody.get(i-1).getXpos()){
+                while(snakeBody.get(i).getXpos() > snakeBody.get(i-1).getXpos()){
+                    snakeBody.get(i).decreaseXpos((float).5);
+                }
+            }
+
+        }
+
+
+    }
+
+    public void checkSnakeBody(){
+
     }
 }

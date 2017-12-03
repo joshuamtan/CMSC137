@@ -1,4 +1,5 @@
 
+import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.*;
@@ -16,6 +17,7 @@ public class PlayScreen extends BasicGameState implements Constants {
     int textboxWidth = WINDOW_WIDTH - GAME_WIDTH;
     ChatClient client = null;
     ArrayList<String> messagesList;
+    int seconds, mov, j = 0;
 
     public PlayScreen(int state){
     }
@@ -25,7 +27,7 @@ public class PlayScreen extends BasicGameState implements Constants {
         row = new ArrayList<>();
         gen = new RowGenerator(row, snek);
         gameContainer.setAlwaysRender(true);
-        score = 0;
+        gameContainer.setSmoothDeltas(true);
         messageField = new TextField(gameContainer, gameContainer.getDefaultFont(),GAME_WIDTH,WINDOW_HEIGHT - textboxHeight,textboxWidth,textboxHeight);
         messages = new TextField(gameContainer, gameContainer.getDefaultFont(),GAME_WIDTH,0,textboxWidth,WINDOW_HEIGHT - messageField.getHeight());
         messageField.setBackgroundColor(Color.white);
@@ -50,16 +52,36 @@ public class PlayScreen extends BasicGameState implements Constants {
     }
 
     public void update(GameContainer gameContainer, StateBasedGame game, int delta) throws SlickException{
+
+        seconds += delta;
+        mov += delta;
         snek.update(gameContainer, game);
         for(int i=0; i<row.size(); i++){
             if(row.get(i).collide(snek)) {
                 row.get(i).moveY();
-                score += 1;
+
             }
             if(row.get(i).getY() > 640){
                 row.remove(i);
             }
         }
+
+        if (mov>1){
+            if(j == snek.snakeBody.size()){
+                j = 0;
+            }
+            snek.moveBody(j);
+            j++;
+            mov=0;
+        }
+
+        if(seconds>1000){
+            score+=10;
+            seconds=0;
+
+        }
+
+
         if (client != null) {
             messagesList = client.getListener().getMessages();
             String messagesString = "";
