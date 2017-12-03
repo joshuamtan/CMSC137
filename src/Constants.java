@@ -22,4 +22,5 @@ public interface Constants {
     final int IN_PROGRESS = 1;
     final int GAME_END = 2;
     final int WAITING_FOR_PLAYERS = 3;
+    final int GAME_READY = 4;
 }
