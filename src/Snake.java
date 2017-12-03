@@ -3,10 +3,11 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Timer;
 
-public class Snake implements Constants {
+public class Snake implements Constants, Serializable {
     public int health = 50;
     public float snakeHeadX = 240;
     public float snakeHeadY = 500;
