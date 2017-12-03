@@ -1,6 +1,8 @@
 import org.newdawn.slick.Graphics;
 
-public class SnakeBody {
+import java.io.Serializable;
+
+public class SnakeBody implements Serializable {
     public float xpos;
     public float ypos;
     public float snakeSize;
