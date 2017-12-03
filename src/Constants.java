@@ -16,7 +16,8 @@ public interface Constants {
     final int GAME_OVER_STATE = 2;   //game over state identifier
     final int LOBBY_STATE = 3;   // lobby state identifier
     final int WAITING_STATE = 4; // waiting state identifier
-
+    final int INST_STATE = 5; // instruction state identifier
+    
     // Game stages
     final int GAME_START = 0;
     final int IN_PROGRESS = 1;
