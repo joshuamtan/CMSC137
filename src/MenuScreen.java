@@ -22,8 +22,10 @@ public class MenuScreen extends BasicGameState implements Constants{
 //        g.drawRect(180, 250, 35, 20);
         g.drawString("Multiplayer", 180, 290);
 //        g.drawRect(180, 290, 100, 20);
-        g.drawString("Quit", 180, 330);
+        g.drawString("Instruction", 180, 330);
 //        g.drawRect(180, 330, 35, 20);
+        g.drawString("High Score", 180, 370);
+        g.drawString("Quit", 180, 410);
         g.drawLine(480,0,480,640);
 
         int mX = Mouse.getX();
@@ -40,7 +42,12 @@ public class MenuScreen extends BasicGameState implements Constants{
                 game.enterState(LOBBY_STATE);
             }
         }
-        if((mX>180&&mX<215) && (mY>640-350 && mY<640-330)){ // quit button
+        if((mX>180&&mX<280) && (mY>640-350 && mY<640-330)) { //instruction button
+        	if(Mouse.isButtonDown(0)){
+               game.enterState(INST_STATE);
+            }
+        }        
+        if((mX>180&&mX<215) && (mY>640-430 && mY<640-410)){ // quit button
             if(Mouse.isButtonDown(0)){
                 gameContainer.exit();
             }

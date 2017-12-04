@@ -19,6 +19,7 @@ public class GameClient extends StateBasedGame implements Constants{
         this.addState(new PlayScreen(PLAY_STATE));  //add play state to game
         this.addState(new LobbyScreen(LOBBY_STATE, this));  //add lobby state to game
         this.addState(new WaitingScreen(WAITING_STATE));  //add waiting state to game
+        this.addState(new InstructionScreen(INST_STATE)); //add instruction state to game
         this.enterState(MENU_STATE);  //show initial screen menu
     }
 
