@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 public class Snake implements Constants {
-    public int health = 50;
+    public int health = 10;
     public float snakeHeadX = 240;
     public float snakeHeadY = 500;
     public float snakeBodyX = 240;
