@@ -34,9 +34,10 @@ public class InstructionScreen extends BasicGameState implements Constants {
         //g.drawString(GAME_NAME, 180, 210);
 		g.drawString("GAME MECHANICS", 200, 50);
 		g.drawString("The game starts immediately, with the snake \nhaving a life points of 10, rendering block \nnumbers randomly, where there is always a \npossible route forward.", 50, 90);
-		g.drawString("The objective of the game is to be the last \nplayer standing while traversing the course \nby passing through numbered blocks using \nthe snake’s life to penetrate.", 50, 190);
+		g.drawString("The objective of the game is to be the last \nplayer standing while traversing the course \nby passing through numbered blocks using \nthe snakeï¿½s life to penetrate.", 50, 190);
 		g.drawString("The player will be scored based on distance \nreached and remaining snake life.", 50, 290);
-		g.drawString("The game only ends when each of the players’ \nsnake’s length or life is extinguished.", 50, 350);
+		g.drawString("The game only ends when each of the playersï¿½ \nsnakeï¿½s length or life is extinguished.", 50, 350);
+		g.drawString("The snake is controlled by the arrow buttons", 50, 410);
 		g.drawString("Back to Menu", 200, 500);
 		int mX = Mouse.getX();
 	    int mY = Mouse.getY();

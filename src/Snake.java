@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Snake implements Constants, Serializable {
-    private int health = 20;
+    private int health = 10;
     private float snakeHeadX = 240;
     private float snakeHeadY = 500;
     private float snakeSize = 25;
