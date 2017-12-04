@@ -1,3 +1,4 @@
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class GameServer implements Constants {
@@ -20,6 +21,15 @@ public class GameServer implements Constants {
             NetworkHelper.serverSend(packet, player.getAddress(), player.getPort());
         }
         catch (Exception e) {}
+    }
+
+    // methods called from other classes
+    public void connectPlayer(String name, InetAddress address, int port) {
+        players.add(new Player(name, address, port));
+        if (players.size() > 2) {
+            WaitingScreen.setGameState(GAME_READY);
+        }
+        broadcast(new Packet("PLAYERS", new PlayersPacket(players)));
     }
 
     public void startGame() {

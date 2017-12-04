@@ -6,6 +6,8 @@ import org.newdawn.slick.state.*;
 import java.util.ArrayList;
 
 public class PlayScreen extends BasicGameState implements Constants {
+    static ArrayList<Player> players;
+    static Player currentPlayer;
     ArrayList<GameObject> row = null;
     RowGenerator gen = null;
     Snake snek = null;
@@ -22,18 +24,25 @@ public class PlayScreen extends BasicGameState implements Constants {
     public PlayScreen(int state){
     }
 
-    public void init(GameContainer gameContainer, StateBasedGame game) throws SlickException{
+    public static void initPlayers(ArrayList<Player> players) {
+        PlayScreen.players = players;
+        for (Player p: players) {
+            if (p.getName().equals(GameClient.getName())) {
+                currentPlayer = p;
+            }
+        }
+    }
+
+    public void init(GameContainer gc, StateBasedGame game) throws SlickException{
         snek = new Snake();
         row = new ArrayList<>();
         gen = new RowGenerator(row, snek);
-        gameContainer.setAlwaysRender(true);
-        gameContainer.setSmoothDeltas(true);
-        messageField = new TextField(gameContainer, gameContainer.getDefaultFont(),GAME_WIDTH,WINDOW_HEIGHT - textboxHeight,textboxWidth,textboxHeight);
-        messages = new TextField(gameContainer, gameContainer.getDefaultFont(),GAME_WIDTH,0,textboxWidth,WINDOW_HEIGHT - messageField.getHeight());
+        gc.setAlwaysRender(true);
+        gc.setSmoothDeltas(true);
+        messageField = new TextField(gc, gc.getDefaultFont(),GAME_WIDTH,WINDOW_HEIGHT - textboxHeight,textboxWidth,textboxHeight);
+        messages = new TextField(gc, gc.getDefaultFont(),GAME_WIDTH,0,textboxWidth,WINDOW_HEIGHT - messageField.getHeight());;
         messageField.setBackgroundColor(Color.white);
         messageField.setTextColor(Color.black);
-        messages.setBackgroundColor(Color.white);
-        messages.setTextColor(Color.black);
         messages.setAcceptingInput(false);
     }
 

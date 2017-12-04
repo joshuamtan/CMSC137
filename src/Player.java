@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.net.InetAddress;
 
-public class Player {
+public class Player implements Serializable {
     private InetAddress address;
     private String name;
     private int port;

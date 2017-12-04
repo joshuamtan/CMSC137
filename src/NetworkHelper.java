@@ -1,9 +1,7 @@
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.net.UnknownHostException;
-
+import java.util.ArrayList;
 
 public class NetworkHelper implements Constants {
     private static InetAddress host;
@@ -14,7 +12,7 @@ public class NetworkHelper implements Constants {
     static {
         // create a client
         try {
-            int port = 1024 + ((int) Math.random() * GAME_CLIENT_PORT);
+            int port = 1024 + (int)(Math.random() * GAME_CLIENT_PORT);
 
             clientSocket = new MulticastSocket(port);
 
@@ -27,7 +25,7 @@ public class NetworkHelper implements Constants {
         Thread thread = new Thread() {
             public void run() {
                 while (true) {
-                    byte[] buf = new byte[256];
+                    byte[] buf = new byte[BUFFER_SIZE];
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
                     try {
                         clientSocket.receive(packet);
@@ -38,9 +36,17 @@ public class NetworkHelper implements Constants {
                         InetAddress sourceAddress = packet.getAddress();
                         int port = packet.getPort();
 
-                        System.out.println("[Client] Received " + received.getType() + "from" + sourceAddress + ":" + port);
+//                        System.out.println("[Client] Received " + received.getType() + "from" + sourceAddress + ":" + port);
 
                         switch(received.getType()) {
+                            case "PLAYERS":
+                                System.out.println("[Client] Received " + received.getType() + " from " + sourceAddress + ":" + port);
+                                ArrayList<Player> players = ((PlayersPacket)received.getActual()).getPlayers();
+                                WaitingScreen.setPlayers(players);
+                                break;
+                            case "START_GAME":
+                                WaitingScreen.setGameState(GAME_START);
+                                break;
                         }
 
                     } catch (Exception e) {}
@@ -58,7 +64,7 @@ public class NetworkHelper implements Constants {
                 isServer = true;
 
                 while (true) {
-                    byte[] buf = new byte[256];
+                    byte[] buf = new byte[BUFFER_SIZE];
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
                     try {
                         // get data from players
@@ -73,9 +79,13 @@ public class NetworkHelper implements Constants {
                         InetAddress sourceAddress = packet.getAddress();
                         int port = packet.getPort();
 
-                        System.out.println("[Server] Received " + received.getType() + " from " + sourceAddress + ":" + port);
+//                        System.out.println("[Server] Received " + received.getType() + " from " + sourceAddress + ":" + port);
 
                         switch(received.getType()) {
+                            case "CONNECT":
+                                String name = ((ConnectPacket) received.getActual()).getName();
+                                GameClient.getGameServer().connectPlayer(name, sourceAddress, port);
+                                break;
                         }
 
                     } catch (Exception e) {
@@ -96,10 +106,11 @@ public class NetworkHelper implements Constants {
 
             MulticastSocket ms = new MulticastSocket(GAME_PORT);
             ms.send(datagramPacket);
-
-            System.out.println("[Server] Sending " + packet.getType() + "from" + destination + ":" + port);
+            System.out.println("[Server] Sending " + packet.getType() + " to " + destination + ":" + port);
             ms.close();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void clientSend(Packet packet, InetAddress destination) {
@@ -109,7 +120,7 @@ public class NetworkHelper implements Constants {
             datagramPacket = new DatagramPacket(buf, buf.length, destination, GAME_PORT);
 
             clientSocket.send(datagramPacket);
-            System.out.println("[Client] Sending " + packet.getType() + " to " + destination);
+//            System.out.println("[Client] Sending " + packet.getType() + " to " + destination);
         } catch (Exception e) {}
     }
 
@@ -119,6 +130,7 @@ public class NetworkHelper implements Constants {
             NetworkHelper.host = address;
 
             NetworkHelper.clientSend(new Packet("CONNECT", new ConnectPacket(name)), address);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,5 +150,9 @@ public class NetworkHelper implements Constants {
 
     public static boolean isHost() {
         return isHost;
+    }
+
+    public static boolean isServer() {
+        return isServer;
     }
 }
