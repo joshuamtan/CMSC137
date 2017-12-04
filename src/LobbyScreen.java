@@ -1,4 +1,3 @@
-import com.sun.deploy.util.StringUtils;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
