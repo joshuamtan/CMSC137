@@ -82,8 +82,6 @@ public class PlayScreen extends BasicGameState implements Constants {
         messages = new TextField(gameContainer, gameContainer.getDefaultFont(),GAME_WIDTH,0,textboxWidth,WINDOW_HEIGHT - messageField.getHeight());
         messageField.setBackgroundColor(Color.white);
         messageField.setTextColor(Color.black);
-        messages.setBackgroundColor(Color.white);
-        messages.setTextColor(Color.black);
         messages.setAcceptingInput(false);
     }
 

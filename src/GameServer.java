@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 public class GameServer implements Constants {
     ArrayList<Player> players = new ArrayList<>();
-    int seconds = 0;
 
     public GameServer() {
         System.out.println("Game server started");

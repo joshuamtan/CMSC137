@@ -64,7 +64,10 @@ public class WaitingScreen extends BasicGameState implements Constants {
 
         if (WaitingScreen.gameState == GAME_START || WaitingScreen.gameState == GAME_READY) {
             PlayScreen.initPlayers(WaitingScreen.players);
-            if (WaitingScreen.gameState == GAME_START) game.enterState(PLAY_STATE);
+            if (WaitingScreen.gameState == GAME_START) {
+                ((PlayScreen) game.getState(PLAY_STATE)).addChatClient(client);
+                game.enterState(PLAY_STATE);
+            }
         }
 
         if (NetworkHelper.isServer() && (mX>180 && mX<220) && (mY>(WINDOW_HEIGHT-320) && mY<(WINDOW_HEIGHT-300))) {
