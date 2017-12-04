@@ -31,8 +31,8 @@ public class MenuScreen extends BasicGameState implements Constants{
 //        input = "X: " + mX + "Y: " + mY;
         if((mX>180&&mX<215) && (mY>640-270 && mY<640-250)){ // play button
             if(Mouse.isButtonDown(0)){
-                ((PlayScreen) game.getState(PLAY_STATE)).startGame();
-                game.enterState(PLAY_STATE);
+//                ((PlayScreen) game.getState(PLAY_STATE)).startGame();
+//                game.enterState(PLAY_STATE);
             }
         }
         if((mX>180&&mX<280) && (mY>640-310 && mY<640-290)){ // multi button

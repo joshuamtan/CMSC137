@@ -3,15 +3,18 @@ import org.newdawn.slick.Graphics;
 
 public class Obstacle extends GameObject{
     private int health = 2;
-    public float xpos;
-    public float ypos = 100;
-    public int width = 70;
-    public int height = 70;
-    public String healthLabel = Integer.toString(health);
+    private int id;
+    private float xpos;
+    private float ypos;
+    private int width = 70;
+    private int height = 70;
+    private String healthLabel = Integer.toString(health);
 
-    public Obstacle(float rowX, Snake snek){
+    public Obstacle(int id, float rowX, int maxHealth){
+        this.id = id;
         this.xpos = rowX;
-        health = (int) (Math.random()*snek.health) + 1;
+        this.ypos = 100;
+        health = (int) (Math.random()*maxHealth) + 1;
         healthLabel = Integer.toString(health);
     }
 
@@ -36,8 +39,8 @@ public class Obstacle extends GameObject{
 
     @Override
     public boolean collide(Snake snake){
-        if((this.ypos-20 < snake.snakeHeadY+25) && (this.ypos+20 > snake.snakeHeadY-25) && (this.xpos-40 <snake.snakeHeadX-25) && (this.xpos+40 >snake.snakeHeadX-25) && (this.health != 0)){
-            snake.health-=this.health;
+        if((this.ypos-20 < snake.getSnakeHeadY()+25) && (this.ypos+20 > snake.getSnakeHeadY()-25) && (this.xpos-40 <snake.getSnakeHeadX()-25) && (this.xpos+40 >snake.getSnakeHeadX()-25) && (this.health != 0)){
+            snake.setHealth(snake.getHealth()-this.health);
             while(this.health != 0){
                 this.health--;
             }
@@ -53,12 +56,31 @@ public class Obstacle extends GameObject{
         return true;
     }
 
-    @Override
     public void moveY(){
-        this.ypos+=.1;
+        this.ypos+=0.1;
     }
 
-    public float getY(){
+    public float getYpos(){
         return this.ypos;
+    }
+
+    public float getXpos() {
+        return this.xpos;
+    }
+
+    public int getHealth() {
+        return this.health;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setXpos(float xpos) {
+        this.xpos = xpos;
+    }
+
+    public void setYpos(float ypos) {
+        this.ypos = ypos;
     }
 }

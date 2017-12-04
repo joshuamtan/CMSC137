@@ -5,23 +5,20 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class Snake implements Constants, Serializable {
-    public int health = 50;
-    public float snakeHeadX = 240;
-    public float snakeHeadY = 500;
-    public float snakeBodyX = 240;
-    public float snakeBodyY = 240;
-    public float snakeSize = 25;
+    private int health = 20;
+    private float snakeHeadX = 240;
+    private float snakeHeadY = 500;
+    private float snakeSize = 25;
     ArrayList<SnakeBody> snakeBody = null;
+
     public Snake(){
         snakeBody = new ArrayList<>();
         for(int i=1; i<health/5; i++){
             SnakeBody cell = new SnakeBody(snakeHeadX, snakeHeadY+(snakeSize*i), snakeSize);
             snakeBody.add(cell);
         }
-
     }
 
     public void render(Graphics g){
@@ -32,21 +29,26 @@ public class Snake implements Constants, Serializable {
         }
     }
 
-    public void update(GameContainer gameContainer, StateBasedGame game){
-        Input in = gameContainer.getInput();
-        if (in.isKeyDown(Input.KEY_LEFT) && snakeHeadX > 0){
-            snakeHeadX -= .5;
-        }
-        if (in.isKeyDown(Input.KEY_RIGHT) && snakeHeadX < GAME_WIDTH - snakeSize){
-            snakeHeadX += .5;
-        }
-        if (in.isKeyDown(Input.KEY_UP) && snakeHeadY > 0){snakeHeadY -= .5; }
-        if (in.isKeyDown(Input.KEY_DOWN) && snakeHeadY < WINDOW_HEIGHT - snakeSize){snakeHeadY += .5; }
-
-
+    public void update(StateBasedGame game){
         if(this.health <= 0){
             game.enterState(GAME_OVER_STATE);
         }
+    }
+
+    public void moveLeft() {
+        if (snakeHeadX > 0) snakeHeadX -= .5;
+    }
+
+    public void moveRight() {
+        if (snakeHeadX < GAME_WIDTH - snakeSize) snakeHeadX += .5;
+    }
+
+    public void moveUp() {
+        if (snakeHeadY > 0) snakeHeadY -= .5;
+    }
+
+    public void moveDown() {
+        if (snakeHeadY < WINDOW_HEIGHT - snakeSize) snakeHeadY += .5;
     }
 
     public void moveBody(int i){
@@ -74,11 +76,41 @@ public class Snake implements Constants, Serializable {
             }
 
         }
-
-
     }
 
     public void checkSnakeBody(){
 
+    }
+
+    public void setSnakeHeadX(float snakeHeadX) {
+        this.snakeHeadX = snakeHeadX;
+    }
+
+    public float getSnakeHeadX() {
+        return snakeHeadX;
+    }
+
+    public void setSnakeHeadY(float snakeHeadY) {
+        this.snakeHeadY = snakeHeadY;
+    }
+
+    public float getSnakeHeadY() {
+        return snakeHeadY;
+    }
+
+    public void setSnakeBody(ArrayList<SnakeBody> snakeBody) {
+        this.snakeBody = snakeBody;
+    }
+
+    public ArrayList<SnakeBody> getSnakeBody() {
+        return snakeBody;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
     }
 }
