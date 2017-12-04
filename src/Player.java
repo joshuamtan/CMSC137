@@ -39,4 +39,6 @@ public class Player implements Serializable {
     public Snake getSnake() {
         return snake;
     }
+
+    public void setSnake(Snake s) { this.snake = snake; }
 }

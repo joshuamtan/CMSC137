@@ -20,7 +20,7 @@ public class ChatClient extends Thread implements Constants {
             /* Open a ClientSocket and connect to ServerSocket */
             server = new Socket(serverName, CHAT_PORT);
             name = server.getLocalSocketAddress().toString();
-            System.out.println("Successfully created client " + name);
+            System.out.println("Successfully created chat client " + name);
             listenerThread = new ClientListener(server);
             listenerThread.start();
         } catch (Exception e) {

@@ -20,9 +20,9 @@ public class ClientListener extends Thread{
                 System.out.println(incoming);
                 messages.add(incoming);
                 // write to textbox in game screen
-            } catch(IOException e){
-                e.printStackTrace();
+            } catch(Exception e){
                 System.out.println("Cannot find (or disconnected from) Server");
+                break;
             }
             
         }

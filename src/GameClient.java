@@ -4,6 +4,7 @@ import org.newdawn.slick.state.*;
 
 public class GameClient extends StateBasedGame implements Constants{
     private static GameServer gameServer;
+    private static String name;
 
     static Thread clientReceiver;
     static Thread serverReceiver;
@@ -51,8 +52,15 @@ public class GameClient extends StateBasedGame implements Constants{
         clientReceiver.interrupt();
     }
 
+    public static void setName(String name) {
+        GameClient.name = name;
+    }
+
+    public static String getName() {
+        return GameClient.name;
+    }
+
     public static GameServer getGameServer() {
         return gameServer;
     }
-
 }
