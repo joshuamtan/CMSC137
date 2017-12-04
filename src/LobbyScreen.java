@@ -1,4 +1,3 @@
-import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 import org.newdawn.slick.gui.TextField;
@@ -69,7 +68,7 @@ public class LobbyScreen extends BasicGameState implements Constants {
                     e.printStackTrace();
                 }
                 // start chat client
-                ChatClient client = new ChatClient(hostAddress);
+                ChatClient client = new ChatClient(hostAddress, GameClient.getName());
                 client.start();
                 ((WaitingScreen) game.getState(WAITING_STATE)).addChatClient(client);
 
@@ -93,7 +92,7 @@ public class LobbyScreen extends BasicGameState implements Constants {
 
                 String hostAddress = host.getText();
                 // start chat client
-                ChatClient client = new ChatClient(hostAddress);
+                ChatClient client = new ChatClient(hostAddress, GameClient.getName());
                 client.start();
 
                 ((WaitingScreen) game.getState(WAITING_STATE)).addChatClient(client);
